@@ -2,6 +2,7 @@
 
 # Import logo
 from art import cup, line
+from replit import clear
 
 MENU = {
     "espresso": {
@@ -41,41 +42,69 @@ balance = 100
 # Starting profit amount
 profit = 0
 
-# Coffee machine is ON
-is_on = True
 
 
-def resource_report():
-    print("\n")
+
+def resource_report(current_or_new):
+    msg = current_or_new
     print(line)
-    print("The current resource values:")
+    print(f"The {msg} resource values:")
     print(line)
-    print(f"Water:                            {resources['water']}ml"
-          f"\nMilk:                             {resources['milk']}ml"
-          f"\nCoffee:                           {resources['coffee']}g")
+    print(f"Water:                                  {resources['water']}ml"
+          f"\nMilk:                                   {resources['milk']}ml"
+          f"\nCoffee:                                 {resources['coffee']}g")
     print(line)
 
 
 def refill():
-    resource_report()
+    clear()
+    resource_report(current_or_new="CURRENT")
     resource_variables = {"water": "ml", "milk": "ml", "coffee": "g"}
     for key, value in resource_variables.items():
-        result = int(input(f"\nHow much {key} would you like to add?\nMin. 1{value} to Max. 1000{value}?\nEnter HERE >>> "))
+        result = int(
+            input(
+                f"\nHow much {key.upper()} would you like to add?\nMin. 1{value} to Max. 1000{value}?\nEnter HERE >>> "
+            ))
         if 0 <= result <= 1000:
             resources[key] += result
-            print(f"\nThank you.\nAssigning {result}{value} increase to {key}...")
+            print(line)
+            print(
+                f"Thank you.\nAssigning {result}{value} increase to {key.upper()}..."
+            )
+            print(line)
         else:
-            print(f"\nOutside the prescribed limits\nRESULT: {key} = {result}{value}")
-            result = int(input(f"\nHow much {key} would you like to add?\nMin. 1{value} to Max. 1000{value}?\nEnter HERE >>> "))
+            print(line)
+            print(
+                f"WARNING >>> Outside required limits\nRESULT  >>> {key.upper()} was given a value {result}{value}"
+            )
+            print(line)
+            result = int(
+                input(
+                    f"\nHow much {key.upper()} would you like to add?\nMin. 1{value} to Max. 1000{value}?\nEnter HERE >>> "
+                ))
             if 0 <= result <= 1000:
                 resources[key] += result
-                print(f"\nThank you.\nAssigning {result}{value} increase to {key}...")
-            else:
+                print(line)
                 print(
-                    f"\nStill outside the prescribed limits\n"
-                    f"RESULT: {key} = {result}{value}\nAssigning 0{value} increase to {key}...")
-                    print(line)
-    resource_report()
+                    f"Thank you.\nAssigning {result}{value} increase to {key.upper()}..."
+                )
+                print(line)
+            else:
+                print(line)
+                print(
+                    f"WARNING >>> STILL outside required limits\n"
+                    f"RESULT  >>> {key.upper()} was given a value {result}{value}"
+                )
+                print(line)
+                print(
+                    f"DEFAULT >>> Assigning 0{value} increase to {key.upper()}..."
+                )
+                print(line)
+    clear()
+    resource_report(current_or_new="NEW")
+    back_to_menu = input(f"\nEnter 'm' for MENU when ready...\nEnter HERE >>> ")
+    if back_to_menu in ("m", "menu"):
+        clear()
 
 
 # TODO 4. Check resources sufficient?
@@ -129,7 +158,9 @@ def Check_transaction(coins_inserted, recipe_cost):
         profit += recipe_cost
         return True
     else:
-        print(f"\nSorry ${coins_inserted:.2f} is not enough.\nMoney being refunded...")
+        print(
+            f"\nSorry ${coins_inserted:.2f} is not enough.\nMoney being refunded..."
+        )
         return False
 
 
@@ -147,31 +178,36 @@ def make_coffee(drink_name, drink_ordered):
     print(f"Here is your {drink_name} ☕️. Enjoy!")
 
 
+
+
+# Coffee machine is ON
+is_on = True
+
 # While the coffee machine is on
 while is_on:
 
-    # TODO 1. Prompt user by asking “ What would you like? (espresso/latte/cappuccino): ”
-    # a. Check the user’s input to decide what to do next.
-    # b. The prompt should show every time action has completed, e.g. once the drink is
-    # dispensed. The prompt should show again to serve the next customer.
     print(line)
     print("Welcome to your company's COFFEE MACHINE:")
     print(line)
     print(cup)
     print(line)
+    # TODO 1. Prompt user by asking “ What would you like? (espresso/latte/cappuccino): ”
+    # a. Check the user’s input to decide what to do next.
+    # b. The prompt should show every time action has completed, e.g. once the drink is
+    # dispensed. The prompt should show again to serve the next customer.
     user_choice = input("Drink Menu:"
-                        "\n----------------------------------------"
-                        "\nCappuccino - $3.00:            Enter 'c'"
-                        "\nLatte      - $2.50:            Enter 'l'"
-                        "\nEspresso   - $1.50:            Enter 'e'"
-                        "\n----------------------------------------"
+                        "\n-----------------------------------------------"
+                        "\nCappuccino - $3.00:                  Enter 'c'"
+                        "\nLatte      - $2.50:                  Enter 'l'"
+                        "\nEspresso   - $1.50:                  Enter 'e'"
+                        "\n-----------------------------------------------"
                         "\nOperations Menu:"
-                        "\n----------------------------------------"
-                        "\nMachine Report    :            Enter 'm'"
-                        "\nRefill            :            Enter 'r'"
-                        "\nSupport           :            Enter 's'"
-                        "\nTurn Off          :            Enter 'o'"
-                        "\n----------------------------------------"
+                        "\n-----------------------------------------------"
+                        "\nMachine Report    :                  Enter 'm'"
+                        "\nRefill            :                  Enter 'r'"
+                        "\nSupport           :                  Enter 's'"
+                        "\nTurn Off          :                  Enter 'o'"
+                        "\n-----------------------------------------------"
                         "\nEnter HERE >>> ").lower()
 
     # TODO 2. Turn off the Coffee Machine by entering “ off ” to the prompt.
@@ -180,7 +216,8 @@ while is_on:
     if user_choice in ("o", "off"):
         print("\n")
         print(line)
-        print("The Coffee Machine is now turning OFF!\nThank you and goodbye...")
+        print(
+            "The Coffee Machine is now turning OFF!\nThank you and goodbye...")
         print(line, "\n\n")
         is_on = False
 
@@ -192,25 +229,31 @@ while is_on:
     # Coffee: 76g
     # Money: $2.5
     elif user_choice in ("m", "machine", "report", "machine report"):
-        print("\n")
+        clear()
         print(line)
         print("The current resource values:")
         print(line)
-        print(f"Water:                            {resources['water']}ml"
-              f"\nMilk:                             {resources['milk']}ml"
-              f"\nCoffee:                           {resources['coffee']}g")
+        print(f"Water:                                  {resources['water']}ml"
+              f"\nMilk:                                   {resources['milk']}ml"
+              f"\nCoffee:                                 {resources['coffee']}g")
         print(line)
-        print(f"Balance:                       ${balance:.2f}"
-              f"\nProfit:                        ${profit:.2f}")
+        print(f"Balance:                              ${balance:.2f}"
+              f"\nProfit:                               ${profit:.2f}")
         print(line)
+        back_to_menu = input(f"\nEnter 'm' for MENU when ready...\nEnter HERE >>> ")
+        if back_to_menu in ("m", "menu"):
+            clear()
     elif user_choice in ("s", "support"):
-        print("\n")
+        clear()
         print(line)
         print("Support:")
         print(line)
-        print(f"Developer:         Armand van der Merwe"
-              f"\nEmail:               arri.vdm@gmail.com")
+        print(f"Developer:                Armand van der Merwe"
+              f"\nEmail:                      arri.vdm@gmail.com")
         print(line)
+        back_to_menu = input(f"\nEnter 'm' for MENU when ready...\nEnter HERE >>> ")
+        if back_to_menu in ("m", "menu"):
+            clear()
     elif user_choice in ("r", "refill"):
         refill()
     else:
