@@ -60,22 +60,21 @@ def refill():
     resource_report()
     resource_variables = {"water": "ml", "milk": "ml", "coffee": "g"}
     for key, value in resource_variables.items():
-        result = int(input(f"\nHow much {key} would you like to add?\n"
-                           f"Min. 1{value} to Max. 1000{value}?\nEnter HERE >>> "))
+        result = int(input(f"\nHow much {key} would you like to add?\nMin. 1{value} to Max. 1000{value}?\nEnter HERE >>> "))
         if 0 <= result <= 1000:
             resources[key] += result
             print(f"\nThank you.\nAssigning {result}{value} increase to {key}...")
         else:
-            print(f"\n⛔ Outside the prescribed limits ⛔\nRESULT: {key} = {result}{value}")
-            result = int(input(f"\nHow much {key} would you like to add?\n"
-                               f"Min. 1{value} to Max. 1000{value}?\nEnter HERE >>> "))
+            print(f"\nOutside the prescribed limits\nRESULT: {key} = {result}{value}")
+            result = int(input(f"\nHow much {key} would you like to add?\nMin. 1{value} to Max. 1000{value}?\nEnter HERE >>> "))
             if 0 <= result <= 1000:
                 resources[key] += result
                 print(f"\nThank you.\nAssigning {result}{value} increase to {key}...")
             else:
                 print(
-                    f"\n⚠ Still outside the prescribed limits ⚠\n"
+                    f"\nStill outside the prescribed limits\n"
                     f"RESULT: {key} = {result}{value}\nAssigning 0{value} increase to {key}...")
+                    print(line)
     resource_report()
 
 
