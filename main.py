@@ -1,4 +1,7 @@
-"""The Coffee Machine"""
+"""
+The Coffee Machine: 
+Recreates the functions of a coffee machine.
+"""
 
 # Import logo
 from art import cup, line
