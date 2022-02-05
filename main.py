@@ -104,7 +104,16 @@ def refill():
         clear()
         resource_report(current_or_new="NEW")
         back_to_menu = input(f"\nEnter 'm' for MENU when ready...\nEnter HERE >>> ")
-        if back_to_menu in ("m", "menu"):
+        if back_to_menu not in ("m", "menu"):
+            print("\n")
+            print(line)
+            print("WARNING >>>\nThat was not a valid option...\n\nPLEASE WAIT A MOMENT >>>\nProcessing...")
+            print(line)
+            print("\n\n")
+            time.sleep(6)
+            clear()
+            is_on = True
+        else:
             clear()
             is_on = True
         return is_on
@@ -136,6 +145,8 @@ def process_coins():
     clear()
     print(line)
     print(f"Please insert coins for your {user_choice.capitalize()}:")
+    print("Cappuccino - $3.00\nLatte      - $2.50\nEspresso   - $1.50"
+    )
     print(line)
     total_a = input("How many Quarters  ($0.25): ")
     if total_a == "":
@@ -238,8 +249,19 @@ def make_coffee(drink_name, drink_ordered):
     print(f"Here is your {drink_name.capitalize()}. Enjoy!")
     print(line)
     back_to_menu = input(f"\nEnter 'm' for MENU when ready...\nEnter HERE >>> ")
-    if back_to_menu in ("m", "menu"):
+    if back_to_menu not in ("m", "menu"):
+        print("\n")
+        print(line)
+        print("WARNING >>>\nThat was not a valid option...\n\nPLEASE WAIT A MOMENT >>>\nProcessing...")
+        print(line)
+        print("\n\n")
+        time.sleep(6)
         clear()
+        is_on = True
+    else:
+        clear()
+        is_on = True
+    return is_on
 
 
 
