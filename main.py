@@ -334,7 +334,15 @@ while is_on:
               f"\nProfit:                               ${profit:.2f}")
         print(line)
         back_to_menu = input(f"\nEnter 'm' for MENU when ready...\nEnter HERE >>> ")
-        if back_to_menu in ("m", "menu"):
+        if back_to_menu not in ("m", "menu"):
+            print("\n")
+            print(line)
+            print("WARNING >>>\nThat was not a valid option...\n\nPLEASE WAIT A MOMENT >>>\nProcessing...")
+            print(line)
+            print("\n\n")
+            time.sleep(6)
+            clear()
+        else:
             clear()
     elif user_choice in ("s", "support"):
         clear()
@@ -345,7 +353,15 @@ while is_on:
               f"\nEmail:                      arri.vdm@gmail.com")
         print(line)
         back_to_menu = input(f"\nEnter 'm' for MENU when ready...\nEnter HERE >>> ")
-        if back_to_menu in ("m", "menu"):
+        if back_to_menu not in ("m", "menu"):
+            print("\n")
+            print(line)
+            print("WARNING >>>\nThat was not a valid option...\n\nPLEASE WAIT A MOMENT >>>\nProcessing...")
+            print(line)
+            print("\n\n")
+            time.sleep(6)
+            clear()
+        else:
             clear()
     elif user_choice in ("r", "refill"):
         refill()
