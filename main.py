@@ -3,6 +3,7 @@
 # Import logo
 from art import cup, line
 from replit import clear
+import time
 
 MENU = {
     "espresso": {
@@ -61,50 +62,54 @@ def refill():
     resource_report(current_or_new="CURRENT")
     resource_variables = {"water": "ml", "milk": "ml", "coffee": "g"}
     for key, value in resource_variables.items():
-        result = int(
-            input(
-                f"\nHow much {key.upper()} would you like to add?\nMin. 1{value} to Max. 1000{value}?\nEnter HERE >>> "
-            ))
-        if 0 <= result <= 1000:
-            resources[key] += result
-            print(line)
-            print(
-                f"Thank you.\nAssigning {result}{value} increase to {key.upper()}..."
-            )
-            print(line)
-        else:
-            print(line)
-            print(
-                f"WARNING >>> Outside required limits\nRESULT  >>> {key.upper()} was given a value {result}{value}"
-            )
-            print(line)
+        for key in resources:
+            max = 1000 - resources[key] 
             result = int(
                 input(
-                    f"\nHow much {key.upper()} would you like to add?\nMin. 1{value} to Max. 1000{value}?\nEnter HERE >>> "
+                    f"\nHow much {key.upper()} would you like to add?\nMin. 1{resource_variables[key]} to Max. {max}{resource_variables[key]}?\nEnter HERE >>> "
                 ))
-            if 0 <= result <= 1000:
+            if 0 <= result <= max:
                 resources[key] += result
                 print(line)
                 print(
-                    f"Thank you.\nAssigning {result}{value} increase to {key.upper()}..."
+                    f"Thank you.\nAssigning {result}{resource_variables[key]} increase to {key.upper()}..."
                 )
                 print(line)
             else:
                 print(line)
                 print(
-                    f"WARNING >>> STILL outside required limits\n"
-                    f"RESULT  >>> {key.upper()} was given a value {result}{value}"
+                    f"WARNING >>> Outside required limits\nRESULT  >>> {key.upper()} was given a value {result}{resource_variables[key]}"
                 )
                 print(line)
-                print(
-                    f"DEFAULT >>> Assigning 0{value} increase to {key.upper()}..."
-                )
-                print(line)
-    clear()
-    resource_report(current_or_new="NEW")
-    back_to_menu = input(f"\nEnter 'm' for MENU when ready...\nEnter HERE >>> ")
-    if back_to_menu in ("m", "menu"):
+                result = int(
+                    input(
+                        f"\nHow much {key.upper()} would you like to add?\nMin. 1{resource_variables[key]} to Max. {max}{resource_variables[key]}?\nEnter HERE >>> "
+                    ))
+                if 0 <= result <= max:
+                    resources[key] += result
+                    print(line)
+                    print(
+                        f"Thank you.\nAssigning {result}{resource_variables[key]} increase to {key.upper()}..."
+                    )
+                    print(line)
+                else:
+                    print(line)
+                    print(
+                        f"WARNING >>> STILL outside required limits\n"
+                        f"RESULT  >>> {key.upper()} was given a value {result}{resource_variables[key]}"
+                    )
+                    print(line)
+                    print(
+                        f"DEFAULT >>> Assigning 0{resource_variables[key]} increase to {key.upper()}..."
+                    )
+                    print(line)
         clear()
+        resource_report(current_or_new="NEW")
+        back_to_menu = input(f"\nEnter 'm' for MENU when ready...\nEnter HERE >>> ")
+        if back_to_menu in ("m", "menu"):
+            clear()
+            is_on = True
+        return is_on
 
 
 # TODO 4. Check resources sufficient?
@@ -116,8 +121,13 @@ def refill():
 def resources_sufficient(drink_ordered):
     for item in drink_ordered:
         if drink_ordered[item] > resources[item]:
-            print(f"\nSorry there is not enough {item}")
-            return False
+            print("\n")
+            print(line)
+            print(f">>> Sorry there is not enough {item}.\nPlease wait a moment.\nProcessing...")
+            print(line)
+            print("\n\n")
+            time.sleep(3)
+            refill()
     return True
 
 
@@ -128,11 +138,11 @@ def resources_sufficient(drink_ordered):
 # c. Calculate the monetary value of the coins inserted. E.g. 1 quarter, 2 dimes, 1 nickel, 2
 # pennies = 0.25 + 0.1 x 2 + 0.05 + 0.01 x 2 = $0.52
 def process_coins():
-    print("\nPlease insert coins:")
-    total = int(input("How many Quarters  ($0.25):")) * 0.25
-    total += int(input("How many Dimes     ($0.10):")) * 0.1
-    total += int(input("How many Nickles   ($0.05):")) * 0.05
-    total += int(input("How many Pennies   ($0.01):")) * 0.01
+    print(f"\nPlease insert coins for your {user_choice}:")
+    total = int(input("How many Quarters  ($0.25): ")) * 0.25
+    total += int(input("How many Dimes     ($0.10): ")) * 0.1
+    total += int(input("How many Nickles   ($0.05): ")) * 0.05
+    total += int(input("How many Pennies   ($0.01): ")) * 0.01
     return total
 
 
@@ -151,8 +161,8 @@ def process_coins():
 # places.
 def Check_transaction(coins_inserted, recipe_cost):
     if coins_inserted >= recipe_cost:
-        change = round(recipe_cost - coins_inserted, 2)
-        print(f"\nYour change is: {change:.2f}")
+        change = round(coins_inserted - recipe_cost, 2)
+        print(f"\n\nYour change is: {change:.2f}")
         global balance, profit
         balance += recipe_cost
         profit += recipe_cost
@@ -175,7 +185,12 @@ def Check_transaction(coins_inserted, recipe_cost):
 def make_coffee(drink_name, drink_ordered):
     for item in drink_ordered:
         resources[item] -= drink_ordered[item]
-    print(f"Here is your {drink_name} ☕️. Enjoy!")
+    print(line)
+    print(f"Here is your {drink_name.capitalize()}. Enjoy!")
+    print(line)
+    back_to_menu = input(f"\nEnter 'm' for MENU when ready...\nEnter HERE >>> ")
+    if back_to_menu in ("m", "menu"):
+        clear()
 
 
 
@@ -260,11 +275,11 @@ while is_on:
         if user_choice in ("c", "cappuccino"):
             user_choice = "cappuccino"
         elif user_choice in ("l", "latte"):
-            user_choice = "cappuccino"
+            user_choice = "latte"
         elif user_choice in ("e", "espresso"):
             user_choice = "espresso"
         drink = MENU[user_choice]
         if resources_sufficient(drink["ingredients"]):
             payment = process_coins()
             if Check_transaction(payment, drink["cost"]):
-                make_coffee(drink, drink["ingredients"])
+                make_coffee(user_choice, drink["ingredients"])
