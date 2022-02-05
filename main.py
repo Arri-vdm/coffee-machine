@@ -43,9 +43,6 @@ balance = 100
 # Starting profit amount
 profit = 0
 
-
-
-
 def resource_report(current_or_new):
     msg = current_or_new
     print(line)
@@ -61,12 +58,13 @@ def refill():
     clear()
     resource_report(current_or_new="CURRENT")
     resource_variables = {"water": "ml", "milk": "ml", "coffee": "g"}
-    for key, value in resource_variables.items():
-        for key in resources:
-            max = 1000 - resources[key] 
+    for key, value in resources.items():
+        for key, value in resource_variables.items():
+
+            max = 1000 - resources[key]   
             result = int(
                 input(
-                    f"\nHow much {key.upper()} would you like to add?\nMin. 1{resource_variables[key]} to Max. {max}{resource_variables[key]}?\nEnter HERE >>> "
+                    f"\nHow much {key.upper()} would you like to add?\nMax. {max}{resource_variables[key]}!\nEnter HERE >>> "
                 ))
             if 0 <= result <= max:
                 resources[key] += result
@@ -83,7 +81,7 @@ def refill():
                 print(line)
                 result = int(
                     input(
-                        f"\nHow much {key.upper()} would you like to add?\nMin. 1{resource_variables[key]} to Max. {max}{resource_variables[key]}?\nEnter HERE >>> "
+                        f"\nHow much {key.upper()} would you like to add?\nMax. {max}{resource_variables[key]}!\nEnter HERE >>> "
                     ))
                 if 0 <= result <= max:
                     resources[key] += result
@@ -122,11 +120,8 @@ def resources_sufficient(drink_ordered):
     for item in drink_ordered:
         if drink_ordered[item] > resources[item]:
             print("\n")
-            print(line)
-            print(f">>> Sorry there is not enough {item}.\nPlease wait a moment.\nProcessing...")
-            print(line)
-            print("\n\n")
-            time.sleep(3)
+            print(f"WARNING >>>\nSorry, there is not enough {item}.\n\nPLEASE WAIT A MOMENT >>>\nProcessing...\n\n")
+            time.sleep(5)
             refill()
     return True
 
@@ -138,11 +133,59 @@ def resources_sufficient(drink_ordered):
 # c. Calculate the monetary value of the coins inserted. E.g. 1 quarter, 2 dimes, 1 nickel, 2
 # pennies = 0.25 + 0.1 x 2 + 0.05 + 0.01 x 2 = $0.52
 def process_coins():
-    print(f"\nPlease insert coins for your {user_choice}:")
-    total = int(input("How many Quarters  ($0.25): ")) * 0.25
-    total += int(input("How many Dimes     ($0.10): ")) * 0.1
-    total += int(input("How many Nickles   ($0.05): ")) * 0.05
-    total += int(input("How many Pennies   ($0.01): ")) * 0.01
+    clear()
+    print(line)
+    print(f"Please insert coins for your {user_choice.capitalize()}:")
+    print(line)
+    total_a = input("How many Quarters  ($0.25): ")
+    if total_a == "":
+        print("\n")
+        print(line)
+        print("You need to type a number in...\nPlease wait - Processing")
+        print(line)
+        print("\n")
+        time.sleep(3)
+        total = 0
+        clear()
+        process_coins()
+    total_1 = int(total_a) * 0.25
+    total_b = input("How many Dimes     ($0.10): ")
+    if total_b == "":
+        print("\n")
+        print(line)
+        print("You need to type a number in...\nPlease wait - Processing")
+        print(line)
+        print("\n")
+        time.sleep(3)
+        total = 0
+        clear()
+        process_coins()
+    total_2 = int(total_b) * 0.10
+    total_c = input("How many Nickles   ($0.05): ")
+    if total_c == "":
+        print("\n")
+        print(line)
+        print("You need to type a number in...\nPlease wait - Processing")
+        print(line)
+        print("\n")
+        time.sleep(3)
+        total = 0
+        clear()
+        process_coins()
+    total_3 = int(total_c) * 0.05
+    total_d = input("How many Pennies   ($0.01): ")
+    if total_d == "":
+        print("\n")
+        print(line)
+        print("You need to type a number in...\nPlease wait - Processing")
+        print(line)
+        print("\n")
+        time.sleep(3)
+        total = 0
+        clear()
+        process_coins()
+    total_4 = int(total_d) * 0.01
+    total = total_1 + total_2 + total_3 + total_4
     return total
 
 
@@ -168,9 +211,15 @@ def Check_transaction(coins_inserted, recipe_cost):
         profit += recipe_cost
         return True
     else:
+        print("\n")
+        print(line)
         print(
-            f"\nSorry ${coins_inserted:.2f} is not enough.\nMoney being refunded..."
+            f"WARNING >>>\nSorry, ${coins_inserted:.2f} is not enough.\nMoney being refunded..."
         )
+        print(line)
+        print("\nPLEASE WAIT A MOMENT >>>\nProcessing...\n\n")
+        time.sleep(6)
+        clear()
         return False
 
 
@@ -228,12 +277,19 @@ while is_on:
     # TODO 2. Turn off the Coffee Machine by entering “ off ” to the prompt.
     # a. For maintainers of the coffee machine, they can use “off” as the secret word to turn off
     # the machine. Your code should end execution when this happens.
-    if user_choice in ("o", "off"):
+    if user_choice not in ("o", "off", "m", "machine", "report", "machine report", "s", "support", "c", "cappuccino","l", "latte", "e", "espresso", "r", "refill"):
+        print("\nWARNING >>>\nThat was not a valid option...\n\nPLEASE WAIT A MOMENT >>>\nProcessing...\n")
+        time.sleep(6)
+        clear()
+    
+    elif user_choice in ("o", "off"):
         print("\n")
         print(line)
         print(
-            "The Coffee Machine is now turning OFF!\nThank you and goodbye...")
-        print(line, "\n\n")
+            "WARNING >>>\nThe Coffee Machine is now turning OFF...")
+        print(line, "\n")
+        time.sleep(3)
+        print("Thank you and goodbye...\n\n")
         is_on = False
 
     # TODO 3. Print report.
