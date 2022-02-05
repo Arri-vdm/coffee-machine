@@ -103,8 +103,8 @@ def refill():
                     print(line)
         clear()
         resource_report(current_or_new="NEW")
-        back_to_menu = input(f"\nEnter 'm' for MENU when ready...\nEnter HERE >>> ")
-        if back_to_menu not in ("m", "menu"):
+        back_to_menu = input(f"\nEnter 'c' to CONTINUE ready...\nEnter HERE >>> ").lower()
+        if back_to_menu not in ("c", "continue"):
             print("\n")
             print(line)
             print("WARNING >>>\nThat was not a valid option...\n\nPLEASE WAIT A MOMENT >>>\nProcessing...")
@@ -216,7 +216,7 @@ def process_coins():
 def Check_transaction(coins_inserted, recipe_cost):
     if coins_inserted >= recipe_cost:
         change = round(coins_inserted - recipe_cost, 2)
-        print(f"\n\nYour change is: {change:.2f}")
+        print(f"\n\nYour change is: ${change:.2f}")
         global balance, profit
         balance += recipe_cost
         profit += recipe_cost
@@ -248,7 +248,7 @@ def make_coffee(drink_name, drink_ordered):
     print(line)
     print(f"Here is your {drink_name.capitalize()}. Enjoy!")
     print(line)
-    back_to_menu = input(f"\nEnter 'm' for MENU when ready...\nEnter HERE >>> ")
+    back_to_menu = input(f"\nEnter 'm' for MENU when ready...\nEnter HERE >>> ").lower()
     if back_to_menu not in ("m", "menu"):
         print("\n")
         print(line)
@@ -333,7 +333,7 @@ while is_on:
         print(f"Balance:                              ${balance:.2f}"
               f"\nProfit:                               ${profit:.2f}")
         print(line)
-        back_to_menu = input(f"\nEnter 'm' for MENU when ready...\nEnter HERE >>> ")
+        back_to_menu = input(f"\nEnter 'm' for MENU when ready...\nEnter HERE >>> ").lower()
         if back_to_menu not in ("m", "menu"):
             print("\n")
             print(line)
@@ -352,7 +352,7 @@ while is_on:
         print(f"Developer:                Armand van der Merwe"
               f"\nEmail:                      arri.vdm@gmail.com")
         print(line)
-        back_to_menu = input(f"\nEnter 'm' for MENU when ready...\nEnter HERE >>> ")
+        back_to_menu = input(f"\nEnter 'm' for MENU when ready...\nEnter HERE >>> ").lower()
         if back_to_menu not in ("m", "menu"):
             print("\n")
             print(line)
