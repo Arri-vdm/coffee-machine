@@ -300,7 +300,14 @@ while is_on:
     # a. For maintainers of the coffee machine, they can use “off” as the secret word to turn off
     # the machine. Your code should end execution when this happens.
     if user_choice not in ("o", "off", "m", "machine", "report", "machine report", "s", "support", "c", "cappuccino","l", "latte", "e", "espresso", "r", "refill"):
-        print("\nWARNING >>>\nThat was not a valid option...\n\nPLEASE WAIT A MOMENT >>>\nProcessing...\n")
+        print("\n")
+        print(line)
+        print("WARNING >>>\nThat was not a valid option...\n\nPLEASE WAIT A MOMENT >>>\nProcessing...")
+        print(line)
+        print("\n\n")
+        time.sleep(6)
+        clear()
+        is_on = True
         time.sleep(6)
         clear()
     
