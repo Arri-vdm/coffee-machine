@@ -145,7 +145,7 @@ def process_coins():
     clear()
     print(line)
     print(f"Please insert coins for your {user_choice.capitalize()}:")
-    print("Cappuccino - $3.00\nLatte      - $2.50\nEspresso   - $1.50"
+    print("\nCappuccino - $3.00\nLatte      - $2.50\nEspresso   - $1.50"
     )
     print(line)
     total_a = input("How many Quarters  ($0.25): ")
