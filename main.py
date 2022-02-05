@@ -5,6 +5,7 @@ from art import cup, line
 from replit import clear
 import time
 
+# A dictionary with the menu, ingredients and costs
 MENU = {
     "espresso": {
         "ingredients": {
@@ -31,6 +32,7 @@ MENU = {
     }
 }
 
+# Coffee Machine's resources
 resources = {
     "water": 300,  # Testing 300
     "milk": 200,  # Testing 200
@@ -43,7 +45,13 @@ balance = 100
 # Starting profit amount
 profit = 0
 
+
 def resource_report(current_or_new):
+    """Takes 'Current' or 'New' as inputs.
+       Outputs a report with how much of each resource is available:
+       - Water
+       - Milk
+       - Coffee"""
     msg = current_or_new
     print(line)
     print(f"The {msg} resource values:")
@@ -55,13 +63,17 @@ def resource_report(current_or_new):
 
 
 def refill():
+    """Allows the user to top up resources. Each resource is a maximum of 1000:
+    - Evaluates that each resouce is within required limits\n\n
+    - If resouce is not within required limits, another chance is given\n\n
+    - After another chance has been given, if resouces is not within required limits, adds 0 by default"""
     clear()
     resource_report(current_or_new="CURRENT")
     resource_variables = {"water": "ml", "milk": "ml", "coffee": "g"}
     for key, value in resources.items():
         for key, value in resource_variables.items():
 
-            max = 1000 - resources[key]   
+            max = 1000 - resources[key]
             result = int(
                 input(
                     f"\nHow much {key.upper()} would you like to add?\nMax. {max}{resource_variables[key]}!\nEnter HERE >>> "
@@ -103,11 +115,14 @@ def refill():
                     print(line)
         clear()
         resource_report(current_or_new="NEW")
-        back_to_menu = input(f"\nEnter 'c' to CONTINUE ready...\nEnter HERE >>> ").lower()
+        back_to_menu = input(
+            f"\nEnter 'c' to CONTINUE ready...\nEnter HERE >>> ").lower()
         if back_to_menu not in ("c", "continue"):
             print("\n")
             print(line)
-            print("WARNING >>>\nThat was not a valid option...\n\nPLEASE WAIT A MOMENT >>>\nProcessing...")
+            print(
+                "WARNING >>>\nThat was not a valid option...\n\nPLEASE WAIT A MOMENT >>>\nProcessing..."
+            )
             print(line)
             print("\n\n")
             time.sleep(6)
@@ -126,10 +141,14 @@ def refill():
 # not continue to make the drink but print: “ Sorry there is not enough water. ”
 # c. The same should happen if another resource is depleted, e.g. milk or coffee.
 def resources_sufficient(drink_ordered):
+    """Evaluates if the machine's resources can accommodate the drink's resource requirements:
+    - If the resources are not sufficient, the user gets to top up resources"""
     for item in drink_ordered:
         if drink_ordered[item] > resources[item]:
             print("\n")
-            print(f"WARNING >>>\nSorry, there is not enough {item}.\n\nPLEASE WAIT A MOMENT >>>\nProcessing...\n\n")
+            print(
+                f"WARNING >>>\nSorry, there is not enough {item}.\n\nPLEASE WAIT A MOMENT >>>\nProcessing...\n\n"
+            )
             time.sleep(5)
             refill()
     return True
@@ -142,11 +161,11 @@ def resources_sufficient(drink_ordered):
 # c. Calculate the monetary value of the coins inserted. E.g. 1 quarter, 2 dimes, 1 nickel, 2
 # pennies = 0.25 + 0.1 x 2 + 0.05 + 0.01 x 2 = $0.52
 def process_coins():
+    """Calculates the total of coins inserted."""
     clear()
     print(line)
     print(f"Please insert coins for your {user_choice.capitalize()}:")
-    print("\nCappuccino - $3.00\nLatte      - $2.50\nEspresso   - $1.50"
-    )
+    print("\nCappuccino - $3.00\nLatte      - $2.50\nEspresso   - $1.50")
     print(line)
     total_a = input("How many Quarters  ($0.25): ")
     if total_a == "":
@@ -214,6 +233,10 @@ def process_coins():
 # E.g. “Here is $2.45 dollars in change.” The change should be rounded to 2 decimal
 # places.
 def Check_transaction(coins_inserted, recipe_cost):
+    """Evaluates coins inserted vs recipe_cost
+    - If correct change is inserted it updates the balance and profit
+    - If incorrect change is inserted a refund is issued
+    """
     if coins_inserted >= recipe_cost:
         change = round(coins_inserted - recipe_cost, 2)
         print(f"\n\nYour change is: ${change:.2f}")
@@ -243,16 +266,20 @@ def Check_transaction(coins_inserted, recipe_cost):
 # Milk: 200ml
 # Coffee: 100g
 def make_coffee(drink_name, drink_ordered):
+    """If the transaction is successful and there are enough resources to make the drink the user selected, then the ingredients to make the drink is be deducted from the coffee machine resources."""
     for item in drink_ordered:
         resources[item] -= drink_ordered[item]
     print(line)
     print(f"Here is your {drink_name.capitalize()}. Enjoy!")
     print(line)
-    back_to_menu = input(f"\nEnter 'm' for MENU when ready...\nEnter HERE >>> ").lower()
+    back_to_menu = input(
+        f"\nEnter 'm' for MENU when ready...\nEnter HERE >>> ").lower()
     if back_to_menu not in ("m", "menu"):
         print("\n")
         print(line)
-        print("WARNING >>>\nThat was not a valid option...\n\nPLEASE WAIT A MOMENT >>>\nProcessing...")
+        print(
+            "WARNING >>>\nThat was not a valid option...\n\nPLEASE WAIT A MOMENT >>>\nProcessing..."
+        )
         print(line)
         print("\n\n")
         time.sleep(6)
@@ -262,8 +289,6 @@ def make_coffee(drink_name, drink_ordered):
         clear()
         is_on = True
     return is_on
-
-
 
 
 # Coffee machine is ON
@@ -277,6 +302,7 @@ while is_on:
     print(line)
     print(cup)
     print(line)
+
     # TODO 1. Prompt user by asking “ What would you like? (espresso/latte/cappuccino): ”
     # a. Check the user’s input to decide what to do next.
     # b. The prompt should show every time action has completed, e.g. once the drink is
@@ -296,13 +322,15 @@ while is_on:
                         "\n-----------------------------------------------"
                         "\nEnter HERE >>> ").lower()
 
-    # TODO 2. Turn off the Coffee Machine by entering “ off ” to the prompt.
-    # a. For maintainers of the coffee machine, they can use “off” as the secret word to turn off
-    # the machine. Your code should end execution when this happens.
-    if user_choice not in ("o", "off", "m", "machine", "report", "machine report", "s", "support", "c", "cappuccino","l", "latte", "e", "espresso", "r", "refill"):
+    # If the user's choice is incorrect, returns to main menu
+    if user_choice not in ("o", "off", "m", "machine", "report",
+                           "machine report", "s", "support", "c", "cappuccino",
+                           "l", "latte", "e", "espresso", "r", "refill"):
         print("\n")
         print(line)
-        print("WARNING >>>\nThat was not a valid option...\n\nPLEASE WAIT A MOMENT >>>\nProcessing...")
+        print(
+            "WARNING >>>\nThat was not a valid option...\n\nPLEASE WAIT A MOMENT >>>\nProcessing..."
+        )
         print(line)
         print("\n\n")
         time.sleep(6)
@@ -310,12 +338,14 @@ while is_on:
         is_on = True
         time.sleep(6)
         clear()
-    
+
+    # TODO 2. Turn off the Coffee Machine by entering “ off ” to the prompt.
+    # a. For maintainers of the coffee machine, they can use “off” as the secret word to turn off
+    # the machine. Your code should end execution when this happens.
     elif user_choice in ("o", "off"):
         print("\n")
         print(line)
-        print(
-            "WARNING >>>\nThe Coffee Machine is now turning OFF...")
+        print("WARNING >>>\nThe Coffee Machine is now turning OFF...")
         print(line, "\n")
         time.sleep(3)
         print("Thank you and goodbye...\n\n")
@@ -333,18 +363,24 @@ while is_on:
         print(line)
         print("The current resource values:")
         print(line)
-        print(f"Water:                                  {resources['water']}ml"
-              f"\nMilk:                                   {resources['milk']}ml"
-              f"\nCoffee:                                 {resources['coffee']}g")
+        print(
+            f"Water:                                  {resources['water']}ml"
+            f"\nMilk:                                   {resources['milk']}ml"
+            f"\nCoffee:                                 {resources['coffee']}g"
+        )
         print(line)
         print(f"Balance:                              ${balance:.2f}"
               f"\nProfit:                               ${profit:.2f}")
         print(line)
-        back_to_menu = input(f"\nEnter 'm' for MENU when ready...\nEnter HERE >>> ").lower()
+        back_to_menu = input(
+            f"\nEnter 'm' for MENU when ready...\nEnter HERE >>> ").lower()
+        # If the user's choice is incorrect, returns to main menu
         if back_to_menu not in ("m", "menu"):
             print("\n")
             print(line)
-            print("WARNING >>>\nThat was not a valid option...\n\nPLEASE WAIT A MOMENT >>>\nProcessing...")
+            print(
+                "WARNING >>>\nThat was not a valid option...\n\nPLEASE WAIT A MOMENT >>>\nProcessing..."
+            )
             print(line)
             print("\n\n")
             time.sleep(6)
@@ -352,6 +388,7 @@ while is_on:
         else:
             clear()
     elif user_choice in ("s", "support"):
+        # Shows support options to the user
         clear()
         print(line)
         print("Support:")
@@ -359,11 +396,15 @@ while is_on:
         print(f"Developer:                Armand van der Merwe"
               f"\nEmail:                      arri.vdm@gmail.com")
         print(line)
-        back_to_menu = input(f"\nEnter 'm' for MENU when ready...\nEnter HERE >>> ").lower()
+        back_to_menu = input(
+            f"\nEnter 'm' for MENU when ready...\nEnter HERE >>> ").lower()
         if back_to_menu not in ("m", "menu"):
+            # If the user's choice is incorrect, returns to main menu
             print("\n")
             print(line)
-            print("WARNING >>>\nThat was not a valid option...\n\nPLEASE WAIT A MOMENT >>>\nProcessing...")
+            print(
+                "WARNING >>>\nThat was not a valid option...\n\nPLEASE WAIT A MOMENT >>>\nProcessing..."
+            )
             print(line)
             print("\n\n")
             time.sleep(6)
@@ -371,16 +412,24 @@ while is_on:
         else:
             clear()
     elif user_choice in ("r", "refill"):
+        # Calls refill() function
         refill()
     else:
         if user_choice in ("c", "cappuccino"):
+            # Changes user's input
             user_choice = "cappuccino"
         elif user_choice in ("l", "latte"):
+            # Changes user's input
             user_choice = "latte"
         elif user_choice in ("e", "espresso"):
+            # Changes user's input
             user_choice = "espresso"
+        # Assigns the user's drink choice to 'drink'
         drink = MENU[user_choice]
+        # Checks if resources are sufficient
         if resources_sufficient(drink["ingredients"]):
             payment = process_coins()
+            # Checks if transaction is successful
             if Check_transaction(payment, drink["cost"]):
+                # Calls make_coffee() function
                 make_coffee(user_choice, drink["ingredients"])
